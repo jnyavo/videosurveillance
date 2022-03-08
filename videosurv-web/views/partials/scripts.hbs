@@ -1,0 +1,23 @@
+<script src="js\jquery-3.4.1.js"></script>
+    <script src="materialize\js\materialize.min.js"></script>
+    <script src="fontawesome\js\all.min.js"></script>
+    <script src="js\main.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('.tabs').tabs();
+        $('.sidenav').sidenav();
+        $('.modal').modal();
+        $('select').formSelect();
+    });
+    </script>
+    <script>
+        function toggle() {
+            $('#module-form').modal('close');
+        }
+        function open_module(nom,id){
+            $('#module-form').modal('open');
+            document.getElementById('first_name2').value = nom;
+            document.getElementById('insertion_module').action = "modules/updateModule.php?id=".concat(id);
+            document.getElementById('lab_mod').className = "active";
+        }
+    </script>

@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+{{>head}}
+
+
+<style>
+    div.container{
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 50px;
+        border-radius: 10px;
+    }
+</style>
+<style>
+    thead{
+        background-color: rgba(100, 100, 100, 0.1);
+        font-size: 15px;
+        border: roun;
+        
+    }
+    .count{
+        font-size: 16px;
+    }
+  
+</style>
+<body style="background-image: url('img/bg2.jpg');">
+<!-- -----------------------------------------Menu-------------------------------------------- -->
+    
+        {{>menu}}
+    <!--------------------------------------------------------------------------------------------->
+
+    <!-------------------------------------------En tête---------------------------------------------->
+    <div class="row"  style="background-color: rgba(20,20,20,0.3)">
+        <div class="col s12 white-text">
+            <h5>Tracking des équipements</h5>
+            <p>
+                Réalisé par <a href="#">JOHANESA Asandratry Ny Avo</a> 
+            </p>
+        </div>
+    </div>
+    <!--------------------------------------------------------------------------------------------->
+    <div class="container" style="width:80%">
+        
+            <table class="highlight white-text">
+                <thead>
+                    <th>id_categorie</th>
+                    <th>libelle</th>
+                    
+                    
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    {{#each categories}}
+                        <tr>
+                            <td>{{id_categorie}}</td>
+                            <td>{{libelle}}</td>
+                            
+                            
+                            <td>
+                                <button onclick="modifier_categorie({{id_categorie}})" href="#module-form" class="modal-trigger btn waves-effect waves-light" value="{{id_categorie}}" name="id_equipement" >
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                
+                                <button onclick="supprimer_categorie({{id_categorie}})" class="btn waves-effect waves-light red" value="{{id_categorie}}" name="id_categorie" >
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                        
+                    {{/each}}
+                </tbody>
+                
+            </table>
+        
+        
+    </div>
+
+<!-- modal -->
+
+    <a id="new-module" onclick="clear_module();" href="#module-form" class="modal-trigger hide-on-large-only btn-floating btn-large waves-effect waves-light blue-grey">
+        <i class="material-icons">add</i>
+</a>
+
+
+    <div id="module-form" class="modal">
+        <div class="modal-content">
+        <h4>Modification equipement</h4>
+        <div class="divider"></div>
+        <br>
+        
+
+        <script>
+
+            function supprimer_categorie(id)
+            {
+                var request = new XMLHttpRequest();
+                url = "/sql/categorie/" + id;
+                request.open('DELETE', url, true);
+                request.onload = function () {
+                    console.log(this.response);
+                    if (this.status >= 200 && this.status < 400) {
+                        location.reload();
+                        
+                    }
+                };
+                
+                request.send();
+            }
+            function modifier_categorie(id)
+            {
+                 
+                var request = new XMLHttpRequest();
+
+                url = "/sql/categorie/" + id;
+                document.getElementById('ins_id').value = id;
+                 document.getElementById('label_id').className += "active";
+                request.open('GET', url, true);
+                request.onload = function () {
+                    console.log(this.response);
+                    if (this.status >= 200 && this.status < 400) {
+                        
+                        categorie = JSON.parse(this.response)[0];
+                        
+                        document.getElementById('nouveau_categorie').value = categorie.libelle;
+                        document.getElementById('label_categorie').className += "active";
+                    }
+                };
+                
+                request.send();
+            }
+           
+            function modifier_equipement(button)
+                {
+                    let equipement = info_equipements.rows[parseInt(button.value)];
+                    document.getElementById('ins_id').value = equipement.id;
+                    document.getElementById('ins_libelle').value = info_selon_index[parseInt(button.value)].libelle;
+                    $("#ins_categorie").val(parseInt(info_selon_index[parseInt(button.value)].id_categorie)).change();
+                    $('select').formSelect();
+                    document.getElementById('label_id').className = 'active';
+                    document.getElementById('label_libelle').className = 'active';
+                }
+
+              function test_module() {
+                let submit = true
+                if (document.getElementById('appelation_fruit').value.replace(' ','') == ''){
+                    document.getElementById('appelation_fruit').className = "validate invalid";
+                  submit = false;
+                  
+                }
+
+                //Doit soumettre un fichier image
+                if(!$('input[type="file"]').val()) {
+                    $("#photo_fruit").addClass("invalid");
+                    submit = false;
+                }
+                return submit;
+              }
+             
+        </script>
+
+
+            <div class="row">
+                
+                    <div class="input-field col s10">
+                        <label id="label_id" for="ins_id">ID</label>
+                        <input type="text" id="ins_id" name="ins_id" readonly="readonly">
+                    </div>  
+                    <div class="input-field col s10">
+                       
+                            
+                            
+                            <label id="label_categorie" for="nouveau_categorie">Categorie </label>
+                            <input  type="text" name="nouveau_categorie" id="nouveau_categorie" value=""/>
+                            <script>
+                            
+                                function categorie_check(select)
+                                {
+                                    if (!select.value.localeCompare("0"))
+                                        document.getElementById("nouveau_categorie").className = "";
+                                    else
+                                        document.getElementById("nouveau_categorie").className = "hide";
+                                }
+
+
+                                function send()
+                                {
+                                    
+                                    var request = new XMLHttpRequest();
+                                    var ins_id = document.getElementById("ins_id").value;
+
+                                    var nouveau_categorie = document.getElementById("nouveau_categorie").value;
+                                    
+                                   
+                                    if(nouveau_categorie.replace(' ','') == "")
+                                        return
+                                    
+                                    request.open('PUT', '/sql/categorie', true);
+                                    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                                    request.onload = function ()
+                                    {
+                                            console.log(this.reponse);
+                                            if (this.status >= 200 && this.status < 400) 
+                                            {
+                                                location.reload();
+                                            }
+                                    
+                                        
+                                    };
+                                    request.send(JSON.stringify({id_categorie:ins_id,libelle:nouveau_categorie}));
+                                }
+                                
+                                
+                            
+                            </script>
+                            
+                    </div>
+                    
+                </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light grey-blue" onclick="send();" >
+                    Confirmer
+                    
+                </button>
+                
+                <button type="reset" onclick="toggle()" class="btn waves-effect waves-light red lighten-2">Annuler</button>
+               
+                
+            </div>
+        
+        
+    </div>
+   
+   {{> scripts}}
+</body>
+</html>

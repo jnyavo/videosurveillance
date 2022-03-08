@@ -1,0 +1,101 @@
+<nav>
+        <div class="nav-wrapper blue-grey darken-4">
+            <a class="brand-logo left" style="margin-top: 0.3vw;">
+                <img src="img/logo2.png" width="45vw" heigth="45vw" alt="logo">
+            </a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>
+                    <a class="divUsername white-text" href="/me">
+                        <i class="fa fa-user-circle"></i> <span class="username">{{username}}</span> </a>
+                </li>
+                <!--
+                <li>
+                    <a class="white-text" href="/liste">
+                        <i class="fa fa-list"></i> Liste equipements
+                    </a>
+                </li>
+                <li>
+                    <a class="white-text" href="/liste-categorie">
+                        <i class="fas fa-clipboard-list"></i> Liste categories
+                    </a>
+                </li>
+                -->
+                <li>
+                    <a class="white-text" href="/register-admin">
+                        <i class="fa fa-lock"></i> Nouvel Admin
+                    </a>
+                </li>
+                <li>
+                    <a class="white-text" href="/home">
+                        <i class="fas fa-video"></i> Live video
+                    </a>
+                </li>
+                <!--
+                <li>
+                    <a class="white-text" href="#">
+                        <i class="fas fa-clipboard-list"></i> Liste categories
+                    </a>
+                </li>
+                -->
+                <li>
+                    <a href="auth/logout" class="white-text btn waves-effect light-effect transparent">
+                        <i class="fa fa-sign"></i> Deconnexion
+                    </a>
+                </li>
+                <li>
+                    <!-- <a  href="#module-form"
+                        class="btn waves-effect light-effect transparent modal-trigger">Nouvel equipement</a> -->
+                </li>
+            </ul>
+            <ul class="right hide-on-large-only">
+                <li>
+                    <a href="#" data-target="menu" class="sidenav-trigger">
+                        <i class="material-icons">menu</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <ul id="menu" class="sidenav blue-grey ligthen-5 white-text">
+        <li>
+            <a class="white-text" href="/me">
+                <i class="fa fa-user-circle"></i> {{username}}
+            </a>
+        </li>
+        <div class="divider"></div>
+        <!--
+        <li>
+                    <a class="white-text" href="/liste">
+                        <i class="fa fa-list" ></i> Liste equipements
+                    </a>
+                </li>
+                <li>
+                    <a class="white-text" href="/liste-categorie">
+                        <i class="fas fa-clipboard-list"></i> Liste categories
+                    </a>
+                </li>
+        -->
+                <li>
+                    <a class="white-text" href="/register-admin">
+                        <i class="fa fa-lock"></i> Nouvel Admin
+                    </a>
+                </li>
+        <li>
+            <a class="white-text" href="/home">
+                <i class="fas fa-video"></i> Live video
+                
+            </a>
+        </li>
+        <!--
+        <li>
+            <a class="white-text" href="#">
+                <i class="fa fa-book"></i> Nouvel Elève
+            </a>
+        </li>
+        -->
+        <li>
+            <a class="white-text" href="/auth/logout">
+                <i class="fa fa-sign"></i> Deconnexion
+            </a>
+        </li>
+    </ul>

@@ -1,0 +1,94 @@
+<!-- 
+<?php 
+require "modules/verifLogin.php";
+require "modules/verif_bdvide.php";
+require "modules/database.php";
+
+if(verif_bdvide($conn)){
+    header("location: sign.php");
+}
+?>
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+
+{{>head}}
+
+<style>
+    div.container{
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 50px;
+        border-radius: 10px;
+    }
+</style>
+<body style="background-image: url('img/bg2.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 hide-on-med-and-down	white-text">
+                <h1>Videosurveillance</h1>
+                <p>
+                    Cette application web est destinée à assister les responsables de l'université dans la surveillance de la salle robotique.
+                </p>
+                <img src="img/logo.png" alt="logo"/>
+            </div>
+            <div class="col l6 s12 white-text">
+                <h1>Connexion</h1>
+                <form class="form col s12" id="login" action="/auth/login" method="post">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="username" type="text" name="username" class="validate white-text">
+                            <label for="username">Nom d'utilisateur</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="mdp" type="password" name="password" class="validate white-text">
+                            <label for="mdp">Mot de passe</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="color:red"> 
+                            {{#if message}}{{message}}{{/if}}
+                            </div>
+                    </div>
+                    <div class="row">
+                        <button type="Submit" name="submit" class="btn blue waves-light waves-effect transparent">Se Connecter</button>
+                    </div>
+                <!--
+                <script>
+                    // script pour recevoir le token
+                    const form = document.getElementById("login");
+                    form.addEventListener('submit', async (event) => {
+                        event.preventDefault();
+                        const username = document.getElementById('username').value;
+                        const password = document.getElementById('mdp').value;
+
+                        //envoyer le username et password
+                        const resultat = await fetch('/api/register', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                            body: JSON.stringify({
+                                username,
+                                password
+                            })
+                        }).then((res) => res.json());
+                        localStorage.setItem({token: resultat});
+
+                    });
+
+                    
+                </script>
+                -->
+                </form>
+            </div>
+        </div> 
+    </div>
+
+
+   {{>scripts}}
+
+</body>
+</html>

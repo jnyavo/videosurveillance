@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+{{>head}}
+
+<body style="background-image: url('img/bg2.jpg');">
+
+    <!-- -----------------------------------------Menu-------------------------------------------- -->
+    
+        {{>menu}}
+    <!--------------------------------------------------------------------------------------------->
+
+    <!-------------------------------------------En tête---------------------------------------------->
+    <div class="row"  style="background-color: rgba(20,20,20,0.3)">
+        <div class="col s12 white-text">
+            <h5>Tracking des équipements</h5>
+            <p>
+                Réalisé par <a href="#">JOHANESA Asandratry Ny Avo</a> 
+            </p>
+        </div>
+    </div>
+    <!--------------------------------------------------------------------------------------------->
+    <div class="container">
+        <div class="row">
+         
+<div class="container">
+    <h3 class="center-align white-text">{{#if form }} Mon Compte {{else}} Nouvel Admin {{/if}}</h3>
+    <br>
+    <div class="row">
+    <form class="col s12" {{#if form}} action="/auth/modify" {{else}} action="/auth/register" {{/if}} method="post" onsubmit="return test();">
+    
+    <!-- Script pour eviter les cases vides et invalides -->
+        <script>
+              function test() {
+                var check = true;
+                if (document.getElementById('username').value.replace(' ', '') == "") {
+                  
+                  document.getElementById('username').className = "validate invalid";
+                  check = false;
+                };
+                
+               
+                {{#if form}}
+                    if (document.getElementById('oldpassword').value.replace(' ', '') == '') {
+                        document.getElementById('oldpassword').className = 'validate invalid';
+                        check = false;
+                    };
+                {{else}}
+                    if (document.getElementById('password').value.replace(' ', '') == '') {
+
+                        document.getElementById('password').className = 'validate invalid';
+                        check = false;
+                    }
+                {{/if}}
+                
+                
+                if (document.getElementById('password').value != document.getElementById('confirm').value) {
+                  alert('Confirm password invalid');
+                  document.getElementById('confirm').className = 'validate invalid';
+                  check = false;
+                };
+                if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(document.getElementById('email').value))) {
+                  
+                  document.getElementById('email').className = 'validate invalid';
+                  check = false;
+                }
+                if (document.getElementById('nom').value.replace(' ','') == ''){
+                  
+                  document.getElementById('nom').className = 'validate invalid';
+                  check = false;
+                }
+                if (document.getElementById('prenom').value.replace(' ','') == ''){
+                 
+                  document.getElementById('prenom').className = 'validate invalid';
+                  check = false;
+                }
+                  return check;
+
+              }
+            </script>
+            
+            <div class="row">
+            
+                <div class="input-field col s6 white-text">
+                    <input id="nom" name="lname" type="text" class="validate white-text" value="{{#if form.lname }}{{form.lname}}{{/if}}">
+                    <label for="nom">Nom</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <input id="prenom" name="fname" type="text" class="validate white-text" value="{{#if form.fname }}{{form.fname}}{{/if}}">
+                    <label for="prenom">Prénom</label>
+                </div>
+            </div>
+            <div class="row">
+              
+                <div class="input-field col s11">
+                    <input id="username" name="username" type="text" class="validate white-text" value="{{#if form.username}}{{form.username}}{{/if}}">
+                    <label for="username">Nom d'utilisateur</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email" name="email" type="email" class="validate white-text" value="{{#if form.email }}{{form.email}}{{/if}}">
+                    <label for="email">Email</label>
+                </div>
+            </div>
+            {{#if form}}
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="oldpassword" name="oldpassword" type="password" class="validate white-text" value="">
+                    <label for="oldpassword">Mot de passe</label>
+                </div>
+            </div>
+            {{/if}}
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="password" name="password" type="password" class="validate white-text">
+                    <label for="password">Nouveau mot de passe</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="confirm" name="cpassword" type="password" class="validate white-text">
+                    <label for="confirm">Confirmation du mot de passe</label>
+                </div>
+            </div>
+           
+            <div class="row">
+                
+              
+            </div>
+            <div class="row">
+                <div style="color:red"> 
+                    {{#if message }}
+                        {{message}}
+                    {{/if}} 
+                </div>
+             </div>
+            
+                <button name="submit" type="submit" class="btn waves-effect waves-light blue-grey">
+                    Enregistrer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{{>maxlength}}
+
+    <!-------------------------------------------------------------------------------------------------------->
+
+
+    {{>scripts}}
+</body>
+</html>
