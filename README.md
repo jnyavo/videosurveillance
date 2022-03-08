@@ -1,2 +1,2 @@
-# tracking_equipement
-Web app pour le traçage des equipements du campus
+# videosurveillance
+Web app pour la videosurveillance d'une salle dans le campus
