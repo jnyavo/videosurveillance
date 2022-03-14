@@ -17,11 +17,12 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "flv.js": "^1.6.2",
     "hbs": "^4.1.2",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
+    "node-media-server": "^2.3.8",
     "nodemon": "^2.0.6",
-    "opencv4nodejs": "^5.6.0",
     "pg": "^8.5.1",
     "socket.io": "^4.4.1"
   }

@@ -100,11 +100,22 @@
             <!-- Map -->
 
             <div class="col s12" id='map' style='border: 1px solid black; background-color:rgba(27, 19, 19, 0.555)' > <!-- Note that "m8 l9" was added -->
-                
-            <video id="videoPlayer" width="720" height="600" controls muted="muted" autoplay>
-                <source src="/video" type="video/mp4" />
-
+            <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>   
+            <video id="videoPlayer" width="100%" height="600em" controls muted="muted" autoplay>
             </video>
+            <script>
+                if (flvjs.isSupported()) {
+                    var videoElement = document.getElementById('videoPlayer');
+                    var flvPlayer = flvjs.createPlayer({
+                        type: 'flv',
+                        url: 'ws://localhost:8000/live/test.flv'
+                    });
+                    flvPlayer.attachMediaElement(videoElement);
+                    flvPlayer.load();
+                    flvPlayer.play();
+            }
+            </script>
+            
                
                
             </div>
