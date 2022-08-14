@@ -3,7 +3,7 @@
 
 
 {{>head}}
-
+ <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>   
 <body style="background-image: url('img/bg2.jpg');">
 
     <!-- -----------------------------------------Menu-------------------------------------------- -->
@@ -22,225 +22,58 @@
     </div>
     <!--------------------------------------------------------------------------------------------->
     <div class="row">
-    <div class="col l3 card-panel hide-on-med-and-down" style="background-color: rgba(204, 169, 169, 0.062)"> <!-- Note that "m4 l3" was added -->
-
-        <div class="row">
-            <div class="col s12">
-                <div class="container" style="margin-top: 4vh; margin-bottom: 4vh">
-                    <div class="row">
-                        <h5 class="white-text">Cameras</h5>
-                    <div class="col s12">
-                        
-                            <div class="input-field">
-                                <input id="search" type="search" required>
-                                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                                <i class="material-icons"  onclick="document.getElementById('search').value =''; doneTyping(); ">close</i>
-                            </div>
-                        
-                    </div>
-                    <div class="col s12">
-                        <select id="search_type">
-                            <option value="1">ID</option>
-                            <option value="2">Libellé</option>
-                            <option value="3">Catégorie</option>
-                            <option value="4">Salle</option>
-                            </select>
-                    </div>
-                    
-                    
-                </div>
-                
-                </div>
-                <div class="col s12 card-panel" style="height: 250px; overflow-y:scroll; background-color:inherit">
-                       <table id="liste_detecte">
-                           
-                       </table>
-                    </div>
-                
-                
-                
-            </div>
-            <footer class="page-footer" style="background-color: inherit;">
-                <div class="container" style="margin-top: 1vh;">
-                    <div class="col l12">
-                      
-                            <center><button class="blue waves-effect waves-light btn" style="margin: 5px;">Modifier icon</button></center> 
-                       
-                        
-                    </div>
-                    
-                    <div class="col l12">
-                    
-                            <center><button class="red waves-effect waves-light btn" style="margin: 5px;">Supprimer</button></center> 
-                       
-                        
-                    </div>
-                </div>
-            </footer>
-
-        </div>
-          
-
-      </div>
-        <div class="col m12 l6">
-            <div id="menu">
-                
-                <label for="streets-v11"> <input class="with-gap" id="streets-v11" type="radio" name="rtoggle" value="streets" onclick="switchLayer(this);" checked="checked"/> <span>option 1</span></label>
-                
-                <label for="light-v10"><input  id="light-v10" type="radio" name="rtoggle" value="light" onclick="switchLayer(this);" /><span>option 2</span></label>
-                
-                <label for="dark-v10"><input  id="dark-v10" type="radio" name="rtoggle" value="dark" onclick="switchLayer(this);" /><span>option 3</span></label>
-                
-                <label for="outdoors-v11"><input  id="outdoors-v11" type="radio" name="rtoggle" value="outdoors" onclick="switchLayer(this);" /><span>option 4</span></label>
-
-                <label for="satellite-v9"><input  id="satellite-v9" type="radio" name="rtoggle" value="satellite" onclick="switchLayer(this);" /><span>option 5</span></label>
-            </div>
+    
 
 
             <!-- Map -->
 
-            <div class="col s12" id='map' style='border: 1px solid black; background-color:rgba(27, 19, 19, 0.555)' > <!-- Note that "m8 l9" was added -->
-            <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>   
-            <video id="videoPlayer" width="100%" height="600em" controls muted="muted" autoplay>
-            </video>
-            <script>
-                if (flvjs.isSupported()) {
-                    var videoElement = document.getElementById('videoPlayer');
-                    var flvPlayer = flvjs.createPlayer({
-                        type: 'flv',
-                        url: 'ws://localhost:8000/live/test.flv'
-                    });
-                    flvPlayer.attachMediaElement(videoElement);
-                    flvPlayer.load();
-                    flvPlayer.play();
-            }
-            </script>
-            
-               
-               
+            <div class="col s12" id='map' style='border: 1px solid black; background-color:rgba(27, 19, 19, 0.555); ' >
+                <div class="Scenary"></div>
+                {{!-- <video id="videoPlayer" width="100%" height="600em" controls muted="muted" autoplay>
+                </video> --}}
             </div>
-            <!-- -->
-            <div class="col s12">
-                
-                <!--
-                    <div class="row">
-                        <div class="col s6">
-                            <label for="latitude">Latitude</label>
-                            <input id="latitude" name="latidude">
+            <div id='options' class="card-panel col s3 hide"  style="margin-left:1vw; background-color: rgba(75, 66, 66, 0.062);">
+                <div class="row" >
+                    <form>
+                        <div class="col 10">
+                                <h5>Options</h5>
+                            </div>
+                        <div class="container" style="margin-top: 4vh; margin-bottom: 4vh" >
+                            
+                            <div class=" col s10" >
+                                <label>
+                                    <input id="alarm_state" type="checkbox" class="filled-in" />
+                                    <span class="black-text"> Activer l'alarme</span>
+                                </label>
+                            </div>
+                            <div class="col s10" >
+                                <label>
+                                    <input id="sound_detection_state" type="checkbox" class="filled-in" />
+                                    <span class="black-text">Activer le détecteur de son</span>
+                                </label>
+                            </div>
+                            <div class="input-field col s10">
+                                <p class="range-field">
+                                    <input id="sensitivity_value" type="range" id="test5" min="0" max="100" />
+                                    <label for="test5">Sensibilité de detection</label>
+                                </p>
+                            </div>
+                            
+                            <div class="input-field col s10">
+                                <select id="recording_state" id="enr">
+                                    <option value="1">Continu</option>
+                                    <option value="2">Adaptif</option>
+                                    <option value="3">Desactivé</option>
+                                </select>
+                                <label>Enregistrement video</label>
+                            </div>
                         </div>
-                        <div class="col s6">
-                            <label for="longitude">Longitude</label>
-                            <input id="longitude" name="longitude">
-                        </div>
-                    </div>
-                 -->
-                
+                    </form>
+                </div>
             </div>
         </div>
-       
-        <div class="col l3 card-panel hide-on-med-and-down" style="background-color: rgba(204, 169, 169, 0.062);"> 
-            <div class="row">
-                <form action="#" onsubmit="return false;"class="col 9" style="margin-left: 2vw;">
-                    <div class="col s12">
-                        <h5 class="white-text">Modification</h5>
-                    </div>
-                    <div class="input-field col s10">
-                        <label id="label_id" for="ins_id">ID</label>
-                        <input type="text" id="ins_id" name="ins_id" readonly="readonly">
-                    </div>
-                    <div class="input-field col s10">
-                       
-                            <select name="ins_categorie" id="ins_categorie" onchange="categorie_check(this);">
-                                <option value="-1"></option>
-                            
-                            </select>
-                            
-                            <label>Categorie </label>
-                            <input class="hide" type="text" name="nouveau_categorie" id="nouveau_categorie" value=""/>
-                            <script>
-                            
-                                function categorie_check(select)
-                                {
-                                    if (!select.value.localeCompare("0"))
-                                        document.getElementById("nouveau_categorie").className = "";
-                                    else
-                                        document.getElementById("nouveau_categorie").className = "hide";
-                                }
-
-
-                                function send()
-                                {
-                                    
-                                    var request = new XMLHttpRequest();
-                                    var ins_id = document.getElementById("ins_id").value;
-                                    var ins_categorie = document.getElementById("ins_categorie").value;
-                                    var nouveau_categorie = document.getElementById("nouveau_categorie").value;
-                                    var ins_libelle = document.getElementById("ins_libelle").value;
-                                    if (ins_categorie == -1)
-                                        return
-                                    else
-                                    if(ins_categorie == 0)
-                                    if(nouveau_categorie.replace(' ','') == "")
-                                        return
-                                    if(ins_libelle.replace(' ','') == "")
-                                        return;
-                                    request.open('POST', '/sql/equipment', true);
-                                    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                                    request.onload = () =>
-                                    {
-                                        
-                                            document.getElementById("ins_id").value = "";
-                                            document.getElementById("ins_categorie").value = "";
-                                            document.getElementById("nouveau_categorie").value = "";
-                                            document.getElementById("ins_libelle").value = "";
-                                            $("#ins_categorie").val(-1).change();
-                                            $('select').formSelect();
-                                            
-                                    
-                                        
-                                    };
-                                    request.send(JSON.stringify({ins_id,ins_categorie,nouveau_categorie,ins_libelle}));
-                                }
-                                
-                                
-                            
-                            </script>
-                            
-                    </div>
-                    <div class="input-field col s10">
-                        <label id="label_libelle" for="ins_libelle">Libellé</label>
-                        <input type="text" id="ins_libelle" name="ins_libelle">
-                    </div>
-                    <div class="col s10">
-                        <center><input type="button" class="btn wave-light" value="Ajouter" onclick="send();" ></center>
-                    </div>
-                </form>
-                
-            </div>
-        </div>
-
-      </div>
     </div>
     
-
-    <!--
-        <script>
-        var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
- 
-        mapboxgl.accessToken = 'pk.eyJ1Ijoiam55YXZvIiwiYSI6ImNrazlxeDFrbTBnMXkydW51enp6b2I4ZTQifQ.-S7B4qwXN1dbdguZ7Jrp8g';
-        var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11'
-        });
-        
-        </script>
-    -->
-
-
-    <!-- <script defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDo3XrJvyTByzpv4eb9JnMYZ7uL9oHt6rs&callback=initMap">
-    </script>
-    -->
 
 
     <!-------------------------------------------Bouton et Modal---------------------------------------------->
@@ -255,7 +88,7 @@
         <h4>Cameras</h4>
         <div class="divider"></div>
         <br>
-        <form id="insertion_module" name="insertModule" action="modules/insertModule.php" onsubmit="return test_module();" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+        <form id="insertion_module" name="insertModule" action="#" onsubmit="return test_module();" method="post" enctype="multipart/form-data" accept-charset="utf-8">
 
         <script>
 
@@ -293,5 +126,6 @@
 
 
     {{>scripts}}
+    <script src="init.js"></script>
 </body>
 </html>

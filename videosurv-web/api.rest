@@ -1,0 +1,76 @@
+GET http://localhost:5000/video/start
+
+
+###
+
+GET http://localhost:5000/video/stop
+
+###
+
+GET http://localhost:5000/user/all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###
+
+POST http://localhost:5000/user
+Content-Type: application/json
+
+{
+    "username": "test2",
+    "password": "123",
+    "superuser": 0,
+    "email": "test2@admin.com",
+    "lname": "admin",
+    "fname": "admin"
+}
+
+
+###
+
+DELETE http://localhost:5000/user?id=38
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###
+PUT http://localhost:5000/user
+Content-Type: application/json
+
+{
+    "username": "test2",
+    "superuser": 1
+    
+}

@@ -1,7 +1,15 @@
 <script src="js\jquery-3.4.1.js"></script>
     <script src="materialize\js\materialize.min.js"></script>
     <script src="fontawesome\js\all.min.js"></script>
-    <script src="js\main.js"></script>
+    <script src="js\main.js"></script>  
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="socket.io-client/dist/socket.io.min.js"></script>
+    <script src="services/auth.js"></script>
+    <script src="services/video.js"></script>
+    <script src="services/users.js"></script>
+    
+    
+    <script src="core/script.js"></script>
     <script>
     $(document).ready(function(){
         $('.tabs').tabs();
@@ -14,10 +22,8 @@
         function toggle() {
             $('#module-form').modal('close');
         }
-        function open_module(nom,id){
+        function open_module(){
             $('#module-form').modal('open');
-            document.getElementById('first_name2').value = nom;
-            document.getElementById('insertion_module').action = "modules/updateModule.php?id=".concat(id);
-            document.getElementById('lab_mod').className = "active";
+
         }
     </script>

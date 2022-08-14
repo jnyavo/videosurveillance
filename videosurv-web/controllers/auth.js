@@ -3,6 +3,33 @@ const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+
+
+
+
+
+
+
+
+/*
+ * 
+ *ANCIENS CODES À ARRANGER 
+ * 
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //mise en place de connexion bd
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -11,6 +38,7 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 
 });
+
 
 
 //fonction login à importer
@@ -156,4 +184,15 @@ exports.logout = (req, res) => {
     res.redirect('/');
 };
 
+
+
+
+
+////nouveau code
+
+
+exports.sendSocketAuth = (req,res)=>{
+    token = jwt.sign({session:req.session},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRATION})
+    res.send(token)
+}
 

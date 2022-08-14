@@ -2,6 +2,31 @@ const express = require("express");
 const router = express.Router();
 const mysql = require("mysql");
 
+
+
+/*
+ * 
+ *ANCIENS CODES À ARRANGER 
+ * 
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -9,6 +34,7 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 
 });
+
 
 //Affichage de index.hbs 
 router.get("/", (req,res) => {
@@ -84,18 +110,19 @@ router.get("/liste",(req,res)=>{
         return;
     }
     
-    db.query("SELECT equipement.id_equipement, categorie.libelle AS libelle_categorie, equipement.libelle as libelle_equipement FROM equipement INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie",(error,results)=>{
+   /*  db.query("SELECT equipement.id_equipement, categorie.libelle AS libelle_categorie, equipement.libelle as libelle_equipement FROM equipement INNER JOIN categorie ON equipement.id_categorie = categorie.id_categorie",(error,results)=>{
         if(error)
         {
             console.log(error);
-            res.render('liste',{username: req.session.username});
+            res.render('liste');
         }
         else
         {
             res.render('liste',{username: req.session.username,equipements: results});
         }
             
-    });
+    }); */
+    res.render('liste');
     
 });
 

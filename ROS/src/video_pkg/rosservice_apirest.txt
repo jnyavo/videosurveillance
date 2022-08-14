@@ -1,0 +1,2 @@
+rosservice call /video_service "request: '{\"Authorization\":\"\",\"METHOD\":\"MODIFY\",\"query\":\"sensitivity\"}'
+parameters: '{\"value\":\"3000\"}'"

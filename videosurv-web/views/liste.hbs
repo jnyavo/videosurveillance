@@ -41,34 +41,36 @@
     </div>
     <!--------------------------------------------------------------------------------------------->
     <div class="container" style="width:80%">
-        <form action="/sql/suppression" method="POST">
+        <form action="#">
             <table class="highlight white-text">
                 <thead>
-                    <th>id_equipement</th>
-                    <th>libelle</th>
-                    <th>categorie</th>
-                    
-                    <th>Actions</th>
+                    <th>id</th>
+                    <th>username</th>
+                    <th>lname</th>
+                    <th>fname</th>
+                    <th>email</th>
+                    <th>superuser</th>
                 </thead>
-                <tbody>
-                    {{#each equipements}}
-                        <tr>
-                            <td>{{id_equipement}}</td>
-                            <td>{{libelle_equipement}}</td>
-                            <td>{{libelle_categorie}}</td>
-                            
-                            <td>
-                                <a href="/equipement?id={{id_equipement}}" class="btn waves-effect waves-light" >
-                                    <i class="material-icons">history</i>
-                                </a>
-                                
-                                <button type="submit" class="btn waves-effect waves-light red" value="{{id_equipement}}" name="id_equipement">
-                                    <i class="material-icons">delete</i>
-                                </button>
-                            </td>
-                        </tr>
+                <tbody id="userList">
+
+                    <tr>
+                        <td>24</td>
+                        <td>admin</td>
+                        <td>admin</td>
+                        <td>admin</td>
+                        <td>admin@admin.com</td>
+                        <td>1</td>
                         
-                    {{/each}}
+                        <td>
+                            <a href="#" class="btn waves-effect waves-light" >
+                                <i class="material-icons">edit</i>
+                            </a>
+                            
+                            <button type="submit" class="btn waves-effect waves-light red" value="{{id_equipement}}" name="id_equipement">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </td>
+                    </tr>
                 </tbody>
                 
             </table>
@@ -77,10 +79,10 @@
     </div>
 
 <!-- modal -->
-
+{{!-- 
     <a id="new-module" onclick="clear_module();" href="#module-form" class="modal-trigger hide-on-large-only btn-floating btn-large waves-effect waves-light blue-grey">
         <i class="material-icons">add</i>
-</a>
+</a> --}}
 
 
     <div id="module-form" class="modal">
@@ -89,60 +91,6 @@
         <div class="divider"></div>
         <br>
         <form enctype="multipart/form-data" id="insertion_module" name="insertModule" action="modules/insertModule.php"  onsubmit="return test_module();" method="post"  accept-charset="utf-8">
-
-        <script>
-            function goToHistory(id)
-            {
-                url = "/equipement?id=" +id;
-                window.location.href =url;
-            }
-            function suppression(id_equipement)
-            {
-                url = "/sql/suppression";
-                var request = new XMLHttpRequest();
-                request.open("POST",url,true);
-                request.onload = function()
-                {
-                    if (this.status >= 200 && this.status < 400) 
-                    {
-                        console.log(this.response);
-                        
-                    }
-                }
-                request.send(JSON.stringify({id_equipement}));
-
-            }
-            
-            
-           
-            function modifier_equipement(button)
-                {
-                    let equipement = info_equipements.rows[parseInt(button.value)];
-                    document.getElementById('ins_id').value = equipement.id;
-                    document.getElementById('ins_libelle').value = info_selon_index[parseInt(button.value)].libelle;
-                    $("#ins_categorie").val(parseInt(info_selon_index[parseInt(button.value)].id_categorie)).change();
-                    $('select').formSelect();
-                    document.getElementById('label_id').className = 'active';
-                    document.getElementById('label_libelle').className = 'active';
-                }
-
-              function test_module() {
-                let submit = true
-                if (document.getElementById('appelation_fruit').value.replace(' ','') == ''){
-                    document.getElementById('appelation_fruit').className = "validate invalid";
-                  submit = false;
-                  
-                }
-
-                //Doit soumettre un fichier image
-                if(!$('input[type="file"]').val()) {
-                    $("#photo_fruit").addClass("invalid");
-                    submit = false;
-                }
-                return submit;
-              }
-             
-        </script>
 
 
             <div class="row">
@@ -160,54 +108,7 @@
                             
                             <label>Categorie </label>
                             <input class="hide" type="text" name="nouveau_categorie" id="nouveau_categorie" value=""/>
-                            <script>
-                            
-                                function categorie_check(select)
-                                {
-                                    if (!select.value.localeCompare("0"))
-                                        document.getElementById("nouveau_categorie").className = "";
-                                    else
-                                        document.getElementById("nouveau_categorie").className = "hide";
-                                }
 
-
-                                function send()
-                                {
-                                    
-                                    var request = new XMLHttpRequest();
-                                    var ins_id = document.getElementById("ins_id").value;
-                                    var ins_categorie = document.getElementById("ins_categorie").value;
-                                    var nouveau_categorie = document.getElementById("nouveau_categorie").value;
-                                    var ins_libelle = document.getElementById("ins_libelle").value;
-                                    if (ins_categorie == -1)
-                                        return
-                                    else
-                                    if(ins_categorie == 0)
-                                    if(nouveau_categorie.replace(' ','') == "")
-                                        return
-                                    if(ins_libelle.replace(' ','') == "")
-                                        return;
-                                    request.open('POST', '/sql/equipment', true);
-                                    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                                    request.onload = () =>
-                                    {
-                                        
-                                            document.getElementById("ins_id").value = "";
-                                            document.getElementById("ins_categorie").value = "";
-                                            document.getElementById("nouveau_categorie").value = "";
-                                            document.getElementById("ins_libelle").value = "";
-                                            $("#ins_categorie").val(-1).change();
-                                            $('select').formSelect();
-                                            
-                                    
-                                        
-                                    };
-                                    request.send(JSON.stringify({ins_id,ins_categorie,nouveau_categorie,ins_libelle}));
-                                }
-                                
-                                
-                            
-                            </script>
                             
                     </div>
                     <div class="input-field col s10">
@@ -230,5 +131,6 @@
     </div>
    
    {{> scripts}}
+   <script src="userList.js"></script>
 </body>
 </html>
