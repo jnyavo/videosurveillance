@@ -17,40 +17,12 @@ import jwt
 from os import getenv
 from std_msgs.msg import String
 from cv_bridge import CvBridge, CvBridgeError
+import RPi.GPIO as GPIO
+import time
 
-
-RTMP_URL = "rtmp://localhost/live/{}".format(getenv('CAMERA_LIVE_URL','camera'))
+RTMP_URL = "rtmp://{}/live/{}".format(getenv('SERVER_IP','localhost'),getenv('CAMERA_LIVE_URL','camera'))
 JWT_SECRET = getenv('JWT_SECRET','secret')
-ALGORITHMS = [
-    "HS256",
-    "HS384",
-    "HS512"
-]
-
-def showVideo(obj: MotionDetector,frame: cv2.Mat):
-    cv2.imshow('video',frame)
-
-
-    #Fonction de test
-
-
-
-    key = cv2.waitKey(5) & 0xFF 
-    if key == ord('p'):
-        obj.changeSensitivity(obj.sensitivity+20)
-    elif key == ord('m'):
-        obj.changeSensitivity(obj.sensitivity-20)
-    elif key == ord('d'):
-        print('detection...')
-        obj.launchDetection()
-    elif key == ord('s'):
-        obj.stopDetection()
-        print('detection stopped...')
-    elif key == ord('q'):
-        cv2.destroyAllWindows()
-        exit()
-
-
+BUZZERPIN = 13
 
 
 """
@@ -80,9 +52,49 @@ def callback(obj: MotionDetector,req):
     
     
 
-    
-    
+def setup():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(BUZZERPIN,GPIO.OUT)
 
+
+def runBuzzer():
+    p = GPIO.PWM(BUZZERPIN,440)
+    p.start(10)
+    time.sleep(1)
+
+
+def destroy():
+    GPIO.output(BUZZERPIN,GPIO.HIGH)
+    GPIO.cleanup()
+
+
+
+def showVideo(obj: MotionDetector,frame: cv2.Mat):
+    cv2.imshow('video',frame)
+
+
+    #Fonction de test
+
+
+
+    key = cv2.waitKey(5) & 0xFF 
+    if key == ord('p'):
+        obj.changeSensitivity(obj.sensitivity+20)
+    elif key == ord('m'):
+        obj.changeSensitivity(obj.sensitivity-20)
+    elif key == ord('d'):
+        print('detection...')
+        obj.launchDetection()
+    elif key == ord('s'):
+        obj.stopDetection()
+        print('detection stopped...')
+    elif key == ord('q'):
+        cv2.destroyAllWindows()
+        exit()
+    
+def onMotionCallback():
+    sendAlarm(getenv('CAMERA_ID','camera'))
+    Thread(target=runBuzzer).start()
 
 def main():
     serv = RTMP_sender(RTMP_URL)
@@ -95,7 +107,7 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
 
     #lire la camera et mise en place du callback en detection de mouvement
-    video = MotionDetector(cap,motionCallback=lambda :sendAlarm(getenv('CAMERA_ID','camera')))
+    video = MotionDetector(cap,motionCallback=onMotionCallback)
 
     
     cb = lambda req: callback(video,req) 
@@ -115,4 +127,10 @@ def main():
 
 if __name__ == "__main__":
     rospy.init_node(getenv('CAMERA_ID','camera'))
-    main()
+    setup()
+    try:
+        main()
+    finally:
+        GPIO.cleanup()
+        destroy()
+

@@ -25,12 +25,15 @@ def getSensitivity(obj: MotionDetector,param,res=None):
     res(json.dumps({'value':obj.getSensitivity()}))
 
 
+def sendNotification(data,head):
+    requests.post('{}/alarm'.format(getenv('WEB_SERVER','http://localhost:5000')),data,headers=head)
+
+
 def sendAlarm(id: str):
     token = jwt.encode({'random':'payload'},getenv('JWT_SECRET','secret'),algorithm='HS256')
     head = {'Authorization':'Bearer {}'.format(token)}
     data = {'cameraId':id}
-    resp = requests.post('{}/alarm'.format(getenv('WEB_SERVER','http://localhost:5000')),data,headers=head)
-    soundAlarm()
+    notify = Thread(target=sendNotification,kwargs={'data':data,'head':head})
+    notify.start()
+    
 
-def soundAlarm():
-    return

@@ -4,7 +4,7 @@ import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import cv2
-
+import datetime
 
 class VideoListener:
     def __init__(self):
@@ -58,6 +58,7 @@ class VideoReader:
                 break
             middleware[0](self.lastFrame,frame,callback)
             self.lastFrame = frame
+            rospy.Rate(60).sleep()
             
     
     def release(self):
@@ -84,7 +85,7 @@ class MotionDetector(VideoReader):
         self.sensitivity=sensitivity
         self.method = method
         self.motionCallback = motionCallback
-
+        self.time = datetime.datetime(12,12,12)
         #Les fonctions de detection doivent être placées ici
         self.MOTION_DETECTION_METHODS = {
         'imdiff': self.detectMotion
@@ -133,7 +134,9 @@ class MotionDetector(VideoReader):
         for c in contours:
             x,y,w,h = cv2.boundingRect(c)
             if cv2.contourArea(c) > (10000 -(self.sensitivity*100)): #mouvement detecté
-                self.motionCallback()
+                if ((datetime.datetime.now() - self.time) < datetime.timedelta(seconds=60)):
+                    self.motionCallback()
+                    self.time = datetime.datetime.now()
                 cv2.rectangle(lastframe,(x,y),(x+w,y+h),(255,0,0),2)
                 cv2.putText(lastframe,'Status: {}'.format('Movement'),(10,20),cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),3)
         #cv2.drawContours(lastframe,contours,-1,(255,0,0),2)
