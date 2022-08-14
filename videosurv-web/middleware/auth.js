@@ -30,6 +30,7 @@ exports.checkSocketAuth = (socket,next)=>
 
 exports.checkCredentials = (req,res,next)=>{
     var auth = req.get('Authorization')
+  
     if (auth)
     {
         auth = auth.split(' ')[1];
