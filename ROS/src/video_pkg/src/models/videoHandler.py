@@ -2,39 +2,42 @@
 from symtable import Function
 import rospy
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge, CvBridgeError
+# from cv_bridge import CvBridge, CvBridgeError
 import cv2
 import datetime
 
-class VideoListener:
-    def __init__(self):
-        self.frame = 0
-        rospy.init_node('videoListener')
+
+# class VideoListener:
+#     def __init__(self):
+#         self.frame = 0
+#         rospy.init_node('videoListener')
         
-    def get_frame(self,topic):
-        self.listener(topic)
-        return self.frame
+#     def get_frame(self,topic):
+#         self.listener(topic)
+#         return self.frame
    
-    def callback(self,data):
-        bridge = CvBridge()
-        self.frame = bridge.imgmsg_to_cv2(data, "passthrough")
+#     def callback(self,data):
+#         bridge = CvBridge()
+#         self.frame = bridge.imgmsg_to_cv2(data, "passthrough")
 
         
-    def process_frames(self,topic,callback):
+#     def process_frames(self,topic,callback):
 
-        while not rospy.is_shutdown():
-            current_frame = self.get_frame(topic)
-            if(type(current_frame) != int):
-                callback(current_frame)
-            rospy.Rate(34).sleep()
+#         while not rospy.is_shutdown():
+#             current_frame = self.get_frame(topic)
+#             if(type(current_frame) != int):
+#                 callback(current_frame)
+#             rospy.Rate(34).sleep()
             
-    def listener(self,topic):	
-	    rospy.Subscriber(topic,Image,self.callback)
+#     def listener(self,topic):	
+# 	    rospy.Subscriber(topic,Image,self.callback)
     
+
+
+
+
 def _defaultMiddleware(lastframe: cv2.Mat,frame: cv2.Mat,next: Function):
     next(frame)
-
-
 
 
 class VideoReader:
@@ -85,7 +88,7 @@ class MotionDetector(VideoReader):
         self.sensitivity=sensitivity
         self.method = method
         self.motionCallback = motionCallback
-        self.time = datetime.datetime(12,12,12)
+        self.time = datetime.datetime(1,1,1)
         #Les fonctions de detection doivent être placées ici
         self.MOTION_DETECTION_METHODS = {
         'imdiff': self.detectMotion
@@ -134,7 +137,7 @@ class MotionDetector(VideoReader):
         for c in contours:
             x,y,w,h = cv2.boundingRect(c)
             if cv2.contourArea(c) > (10000 -(self.sensitivity*100)): #mouvement detecté
-                if ((datetime.datetime.now() - self.time) < datetime.timedelta(seconds=60)):
+                if ((datetime.datetime.now() - self.time) > datetime.timedelta(seconds=60)):
                     self.motionCallback()
                     self.time = datetime.datetime.now()
                 cv2.rectangle(lastframe,(x,y),(x+w,y+h),(255,0,0),2)

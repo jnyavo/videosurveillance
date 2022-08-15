@@ -4,7 +4,7 @@
 
 from random import randint
 from models.sendToRTMP import RTMP_sender
-from models.videoHandler import MotionDetector, VideoListener, VideoReader
+from models.videoHandler import MotionDetector
 import cv2
 import rospy
 from servicesLauncher.videoService import videoService
@@ -53,6 +53,7 @@ def callback(obj: MotionDetector,req):
     
 
 def setup():
+    print('setting up...')
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(BUZZERPIN,GPIO.OUT)
 
@@ -61,6 +62,7 @@ def runBuzzer():
     p = GPIO.PWM(BUZZERPIN,440)
     p.start(10)
     time.sleep(1)
+  
 
 
 def destroy():
@@ -94,9 +96,10 @@ def showVideo(obj: MotionDetector,frame: cv2.Mat):
     
 def onMotionCallback():
     sendAlarm(getenv('CAMERA_ID','camera'))
-    Thread(target=runBuzzer).start()
+    runBuzzer()
 
 def main():
+    print('launching main...')
     serv = RTMP_sender(RTMP_URL)
 
     # open camera
